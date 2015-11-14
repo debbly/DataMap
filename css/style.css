@@ -33,6 +33,16 @@ html {
 	display: table-cell;
 }
 
+#footer {
+   position:absolute;
+   padding-left: 35px;
+   bottom:10px;
+   width:80%;
+   height:12px;   /* Height of the footer */
+   font-family: "Lucida Grande", sans-serif;
+   font-size: 10px;
+}
+
 .body {
 	padding-top: 30px;
 	width: 100px;
