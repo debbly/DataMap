@@ -3,59 +3,61 @@
   <title>Healthcare Weight</title>
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
-        type="text/javascript"></script>
+  type="text/javascript"></script>
   <script src="neighborhoods.js"></script>
   <script src="us.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 </head>
 
-<div id = "title"> 
-<h1> The Weight of Healthcare </h1>
-</div>
+<div class="center-block">
 
-<div id = "statement"> This is a data visualization on the healthcare premiums (healthcare monthly cost) for the median aged person making the median household income in each selected city. The monthly healthcare premium is obtained from the <a href= "http://kff.org/interactive/subsidy-calculator/">Health Insurance Marketplace Calculator</a>.</div>
+  <div id = "title"> 
+    <h1> The Weight of Healthcare </h1>
+  </div>
 
-<div id = "states"> click on a city </div>
+  <div id = "statement"> This is a data visualization on the healthcare premiums (healthcare monthly cost) for the median aged person making the median household income in each selected city. The monthly healthcare premium is obtained from the <a href= "http://kff.org/interactive/subsidy-calculator/">Health Insurance Marketplace Calculator</a>.</div>
 
-<div id = "key">
-  <script>
-  var jsonCircles = [
-   { "x_axis": 50, "y_axis": 95, "radius": 10, "color" : "#FFF", "text": " $372" },
-   { "x_axis": 50, "y_axis": 70, "radius": 6.54, "color" : "#FFF", "text": " $243"},
-   { "x_axis": 50, "y_axis": 50, "radius": 4.40, "color" : "#FFF", "text": " $164"}]
- 
-  var svgContainer = d3.select("#key").append("svg")
-                                     .attr("width", 100)
-                                     .attr("height", 200);
+  <div id = "states"> click on a city </div>
 
-  var circle = svgContainer.selectAll("circle")
-                          .data(jsonCircles)
-                          .enter()
-                          .append("circle");
+  <div id = "key">
+    <script>
+      var jsonCircles = [
+      { "x_axis": 50, "y_axis": 95, "radius": 10, "color" : "#FFF", "text": " $372" },
+      { "x_axis": 50, "y_axis": 70, "radius": 6.54, "color" : "#FFF", "text": " $243"},
+      { "x_axis": 50, "y_axis": 50, "radius": 4.40, "color" : "#FFF", "text": " $164"}]
+      
+      var svgContainer = d3.select("#key").append("svg")
+      .attr("width", 100)
+      .attr("height", 200);
 
-  var circleAttributes = circle
-                       .attr("cx", function (d) { return d.x_axis; })
-                       .attr("cy", function (d) { return d.y_axis; })
-                       .attr("r", function (d) { return d.radius; })
-                       .attr( "fill", "#FFF" )
-                       .attr( "stroke", "#5C5C5C" )
-                       .style("fill", function(d) { return d.color; });
+      var circle = svgContainer.selectAll("circle")
+      .data(jsonCircles)
+      .enter()
+      .append("circle");
 
-  var text = svgContainer.selectAll("text")
-                       .data(jsonCircles)
-                       .enter()
-                       .append("text");
+      var circleAttributes = circle
+      .attr("cx", function (d) { return d.x_axis; })
+      .attr("cy", function (d) { return d.y_axis; })
+      .attr("r", function (d) { return d.radius; })
+      .attr( "fill", "#FFF" )
+      .attr( "stroke", "#5C5C5C" )
+      .style("fill", function(d) { return d.color; });
+
+      var text = svgContainer.selectAll("text")
+      .data(jsonCircles)
+      .enter()
+      .append("text");
 
 //Add SVG Text Element Attributes
-  var textLabels = text
-                 .attr("x", function (d) { return d.x_axis + 15; })
-                 .attr("y", function (d) { return d.y_axis + 3; })
-                 .text( function (d) { return d.text; })
-                 .attr("font-family", "Arial")
-                 .attr("font-size", "10px")
-                 .attr("fill", "#5C5C5C");
-  </script>
+var textLabels = text
+.attr("x", function (d) { return d.x_axis + 15; })
+.attr("y", function (d) { return d.y_axis + 3; })
+.text( function (d) { return d.text; })
+.attr("font-family", "Arial")
+.attr("font-size", "10px")
+.attr("fill", "#5C5C5C");
+</script>
 </div>
 
 <body> 
@@ -120,138 +122,139 @@
     <source src="audio/150.mp3" type="audio/mpeg"/>
   </audio>
 
-<div class="span6 offset3">
-<div id="page-wrap">
-  <script>
-var width = 1200,
-    height = 550;
+  <div class="span6 offset3">
+    <div id="page-wrap">
+      <script>
+        var width = 1200,
+        height = 550;
 
-var svg = d3.select( "body" )
-  .append( "svg" )
-  .attr( "width", width )
-  .attr( "height", height );
+        var svg = d3.select( "body" )
+        .append( "svg" )
+        .attr( "width", width )
+        .attr( "height", height );
 
-var g = svg.append( "g" );
+        var g = svg.append( "g" );
 
-var albersProjection = d3.geo.albersUsa()
-  .scale( 1000 )
-  .translate( [width/1.51, height/2.1] );
+        var albersProjection = d3.geo.albersUsa()
+        .scale( 1000 )
+        .translate( [width/1.51, height/2.1] );
 
-var geoPath = d3.geo.path()
-    .projection( albersProjection )
-    .pointRadius(function(d) { return d.properties.cost; });
+        var geoPath = d3.geo.path()
+        .projection( albersProjection )
+        .pointRadius(function(d) { return d.properties.cost; });
 
-var listCitiesClicked = [];
+        var listCitiesClicked = [];
 
-g.selectAll( "path" )
-  .data( neighborhoods_json.features )
-  .enter()
-  .append( "path" )
-  .attr( "fill", "#FFF" )
-  .attr( "stroke", "#5C5C5C" )
-  .attr('stroke-width', 0.25)
-  .attr( "d", geoPath );
+        g.selectAll( "path" )
+        .data( neighborhoods_json.features )
+        .enter()
+        .append( "path" )
+        .attr( "fill", "#FFF" )
+        .attr( "stroke", "#5C5C5C" )
+        .attr('stroke-width', 0.25)
+        .attr( "d", geoPath );
 
-  var US = svg.append( "g" );
+        var US = svg.append( "g" );
 
-US.selectAll( "path" )
-  .data( us_json.features )
-  .enter()
-  .append( "path" )
-  .attr( "fill", "#FFF" )
-  .attr( "fill-opacity", "0.2" )
-  .attr( "stroke", "#000" )
-  .attr( "stroke-opacity", "0.4" )
-  .attr( "d", geoPath )
-  .on( "click", function (geography){
-    var name = $(geography)[0].properties.Name;
-
-    var index = listCitiesClicked.indexOf(" " + name);
-        
-    if (index === -1) {
-
-      listCitiesClicked.push(" " + name);
-
-      var element = document.getElementById('states');
-      element.innerHTML = listCitiesClicked;
-      var audio = document.getElementById(name);
-                                  
-      audio.play();
-
-      var duration = audio.duration/1.48;
-
-      pulse(d3.select(this), duration, name);
-    }
-    })
-  .on( "mouseover", function (geography) {
-    var name = $(geography)[0].properties.Name;
-    console.log(name);
-    var element = document.getElementById('states');
-    element.innerHTML = name;
-
-    d3.select(this)
-    .attr( "fill", "#F00" )
-    .attr( "fill-opacity", "0.6" )
-  })
-  .on( "mouseleave", function () {
-    var element = document.getElementById('states');
-
-    if (listCitiesClicked.length === 0) {
-       element.innerHTML = 'click on a city';
-     } else {
-       element.innerHTML = listCitiesClicked;
-     }
-
-    d3.select(this)
-    .attr( "fill", "#FFF" )
-    .attr( "fill-opacity", "0.2" )
-  });
-
-  function pulse(circle_this, time, name) {
-      var circle = circle_this;
-      var duration = time;
-
-      (function repeat() {
-        if (duration < 0) {
-          var element = document.getElementById('states');
+        US.selectAll( "path" )
+        .data( us_json.features )
+        .enter()
+        .append( "path" )
+        .attr( "fill", "#FFF" )
+        .attr( "fill-opacity", "0.2" )
+        .attr( "stroke", "#000" )
+        .attr( "stroke-opacity", "0.4" )
+        .attr( "d", geoPath )
+        .on( "click", function (geography){
+          var name = $(geography)[0].properties.Name;
 
           var index = listCitiesClicked.indexOf(" " + name);
-          if (index > -1) {
-            listCitiesClicked.splice(index, 1);
-          }
+          
+          if (index === -1) {
 
-           if (listCitiesClicked.length === 0) {
-            element.innerHTML = 'click on a city';
-           } else {
+            listCitiesClicked.push(" " + name);
+
+            var element = document.getElementById('states');
             element.innerHTML = listCitiesClicked;
-           }
+            var audio = document.getElementById(name);
+            
+            audio.play();
 
-          circle = circle.transition()
-          .attr( "stroke", "#999" )
-          .attr( "stroke-opacity", "1" )
-          .attr('stroke-width', 1)
-          .attr( "fill", "#FFF" )
-          .attr( "fill-opacity", ".2" )
-          .duration(500);
-        } else {
-          circle = circle.transition()
-          .duration(500)
-          .attr("stroke-width", 8)
-          .attr( "stroke", "#F00" )
-          .attr( "fill-opacity", "0.2" )
-          .transition()
-          .duration(1000)
-          .attr('stroke-width', 1)
-          .attr( "stroke", "#E996A7" )
-          .ease('sine')
-           .each("end", function () {
-            repeat(duration--); 
-          });
+            var duration = audio.duration/1.48;
+
+            pulse(d3.select(this), duration, name);
+          }
+        })
+        .on( "mouseover", function (geography) {
+          var name = $(geography)[0].properties.Name;
+          console.log(name);
+          var element = document.getElementById('states');
+          element.innerHTML = name;
+
+          d3.select(this)
+          .attr( "fill", "#F00" )
+          .attr( "fill-opacity", "0.6" )
+        })
+        .on( "mouseleave", function () {
+          var element = document.getElementById('states');
+
+          if (listCitiesClicked.length === 0) {
+           element.innerHTML = 'click on a city';
+         } else {
+           element.innerHTML = listCitiesClicked;
+         }
+
+         d3.select(this)
+         .attr( "fill", "#FFF" )
+         .attr( "fill-opacity", "0.2" )
+       });
+
+        function pulse(circle_this, time, name) {
+          var circle = circle_this;
+          var duration = time;
+
+          (function repeat() {
+            if (duration < 0) {
+              var element = document.getElementById('states');
+
+              var index = listCitiesClicked.indexOf(" " + name);
+              if (index > -1) {
+                listCitiesClicked.splice(index, 1);
+              }
+
+              if (listCitiesClicked.length === 0) {
+                element.innerHTML = 'click on a city';
+              } else {
+                element.innerHTML = listCitiesClicked;
+              }
+
+              circle = circle.transition()
+              .attr( "stroke", "#999" )
+              .attr( "stroke-opacity", "1" )
+              .attr('stroke-width', 1)
+              .attr( "fill", "#FFF" )
+              .attr( "fill-opacity", ".2" )
+              .duration(500);
+            } else {
+              circle = circle.transition()
+              .duration(500)
+              .attr("stroke-width", 8)
+              .attr( "stroke", "#F00" )
+              .attr( "fill-opacity", "0.2" )
+              .transition()
+              .duration(1000)
+              .attr('stroke-width', 1)
+              .attr( "stroke", "#E996A7" )
+              .ease('sine')
+              .each("end", function () {
+                repeat(duration--); 
+              });
+            }
+          })();
         }
-      })();
-    }
-  </script>
-  </div>
+      </script>
+    </div>
   </div>
 </body>
+</div>
 </html>
