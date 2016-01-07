@@ -5,6 +5,7 @@ html {
 }
 
 #title {
+	position: relative;
 	text-align : left;
 	padding-left: 30px;
 	font-size: 17px;
@@ -16,12 +17,13 @@ html {
 #states {
 	position: absolute;
 	text-align: center;
-	width: 225px;
-	padding-top: 100px;
+	width: 290px;
+	padding-top: 110px;
 	padding-left: 100px;
 	font-family: "Lucida Grande", sans-serif;
-	font-size: 30px;
+	font-size: 28px;
 	color : rgb( 100 , 100, 100);
+	z-index: -1;
 }
 
 #key{
@@ -48,12 +50,13 @@ html {
 	width: 100px;
 	position: relative;
 	margin: 50 auto;
-	display: table-cell;
+	/*display: table-cell;*/
 	vertical-align: right;
 	text-align: center;
 }
 
 #page-wrap {
+	 position: absolute;
      width: 800px;
      margin: 0 auto;
 }
@@ -62,8 +65,9 @@ html {
    width: 550px;
    text-align : left;
    padding-left: 40px;
-   position: center;
+   position: relative;
    font-family: Gill Sans Extrabold, sans-serif;
    font-size: 11px;
    height: 20px;   /* Height of the footer */
+   z-index: 1;
 }
